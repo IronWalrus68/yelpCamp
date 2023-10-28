@@ -6,6 +6,7 @@ const ejsMate = require('ejs-mate');
 const session = require('express-session')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
+
 // required routes
 const campgrounds = require('./routes/campground');
 const reviews = require('./routes/reviews');
@@ -28,7 +29,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session())
+
+const sessionConfig ={
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 10 * 60 * 24 * 7, //this is setting when the cookie will expire, 1 week from set.
+        maxAge: 1000 * 10 * 60 * 24 * 7,
+
+    }
+}
+app.use(session(sessionConfig))
 
 // use routes
 app.use('/campgrounds', campgrounds)
