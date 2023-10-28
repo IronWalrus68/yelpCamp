@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const session = require('express-session')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 // required routes
@@ -21,11 +22,14 @@ db.once("open", () => {
 });
 
 app.engine('ejs', ejsMate)
-app.use(express.urlencoded({ extended: true}))
-app.use(methodOverride('_method'))
-
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.urlencoded({ extended: true}));
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session())
+
 // use routes
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
