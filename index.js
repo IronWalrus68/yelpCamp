@@ -15,7 +15,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const helmet = require('helmet');
-// const dbUrl = process.env.DB_URL
+const dbUrl = process.env.DB_URL
 
 const MongoDBStore = require('connect-mongo')(session);
 
@@ -27,7 +27,7 @@ const campgroundRoutes = require('./routes/campground');
 const reviewRoutes = require('./routes/reviews');
 // database
 
-const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp'
+// const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp'
 // mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp', {
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
