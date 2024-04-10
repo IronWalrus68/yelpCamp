@@ -47,9 +47,11 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateCampground = async (req, res) => {
     const { id } = req.params;
-    console.log(req.body);
+    console.log(req.body.campground);
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
+    console.log(req.files);
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    // const imgs = []
     campground.images.push(...imgs);
     await campground.save();
     if (req.body.deleteImages) {
@@ -62,7 +64,7 @@ module.exports.updateCampground = async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`)
 }
 
-module.exports.deleteCampground = async (req, res) => {
+module.exports.destroyCampground = async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted campground')
