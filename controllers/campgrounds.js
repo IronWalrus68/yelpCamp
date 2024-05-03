@@ -1,5 +1,6 @@
 const Campground = require('../models/Campground');
 const { cloudinary } = require("../cloudinary");
+require('dotenv').config()
 
 
 module.exports.index = async (req, res) => {
@@ -32,7 +33,9 @@ module.exports.showCampground = async (req, res,) => {
         req.flash('error', 'Cannot find that campground!');
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/show', { campground });
+    let superUser = process.env.superUser
+    res.render('campgrounds/show', { campground, superUser });
+
 }
 
 module.exports.renderEditForm = async (req, res) => {

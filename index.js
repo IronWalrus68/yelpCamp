@@ -143,6 +143,9 @@ app.use('/campgrounds/:id/reviews', reviewRoutes)
 app.get('/', (req, res) => {
     res.render("home")
 })
+app.get('/showUserId', (req, res) => {
+    res.send(`Your User ID is:${req.user._id}`)
+})
 //404 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
